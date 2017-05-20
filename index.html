@@ -10,19 +10,19 @@
     <!--总容器-->
     <div class="container">
         <h1>my todoList</h1>
-        <div class="add-task">
-            <input type="text" class="add-input" placeholder="输入备忘">
-            <button>submit</button>
-        </div>
+        <form action="" class="add-task">
+            <input autofocus autocomplete="off" type="text" name="content" class="add-input" placeholder="输入备忘">
+            <button type="submit">submit</button>
+        </form>
         <!--清单列表开始-->
         <div class="task-list">
             <!--任务开始-->
-            <div class="task-item">
-                <span><input type="checkbox"></span>
-                <span class="task-content">item content 1</span>
-                <span>del</span>
-                <span>detail</span>
-            </div>
+            <!--<div class="task-item">-->
+                <!--<span><input type="checkbox"></span>-->
+                <!--<span class="task-content">item content 1</span>-->
+                <!--<span>del</span>-->
+                <!--<span>detail</span>-->
+            <!--</div>-->
             <!--任务结束-->
         </div>
         <!--清单列表结束-->
@@ -63,6 +63,7 @@
 
 
 <script src="node_modules/jquery/dist/jquery.min.js"></script>
+<script src="node_modules/store.js/store.js"></script>
 <script src="js/base.js"></script>
 </body>
 </html>

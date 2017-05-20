@@ -108,3 +108,13 @@ button{
 textarea{
     min-height: 100px;
 }
+.action{
+    color: #777;
+    font-size: 90%;
+}
+.action:hover{
+    color: #333;
+}
+.fr{
+    float: right;
+}
