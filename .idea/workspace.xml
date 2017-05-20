@@ -86,8 +86,8 @@
     <handled-path value="$PROJECT_DIR$/node_modules" />
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="888" />
-    <option name="y" value="6" />
+    <option name="x" value="460" />
+    <option name="y" value="43" />
     <option name="width" value="1106" />
     <option name="height" value="1047" />
   </component>
@@ -286,16 +286,16 @@
       <updated>1495256295711</updated>
       <workItem from="1495256296851" duration="2488000" />
       <workItem from="1495268778128" duration="10720000" />
-      <workItem from="1495294912844" duration="2765000" />
+      <workItem from="1495294912844" duration="2790000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="15973000" />
+    <option name="totallyTimeSpent" value="15998000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="888" y="6" width="1106" height="1047" extended-state="0" />
-    <editor active="true" />
+    <frame x="460" y="43" width="1106" height="1047" extended-state="0" />
+    <editor active="false" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2326454" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
