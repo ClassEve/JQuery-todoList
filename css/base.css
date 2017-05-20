@@ -101,6 +101,7 @@ button{
     top:0;
     left:0;
     right: 0;
+    position: fixed;
     bottom:0;
     background: rgba(0,0,0,.4);
     display: none;
