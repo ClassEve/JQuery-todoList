@@ -5,8 +5,12 @@
 ;(function () {
     'use strict';
 
-    var $form_add_task = $('.add-task')
-        ,task_list
+    var $form_add_task = $('.add-task'),
+        
+        $delete_task,
+        task_list,
+        $task_detail = $(".task-detail"),
+        $task_detail_mask = $(".task-detail-mask")
         ;
 
     init();
@@ -30,32 +34,64 @@
         $input.val('');
     });
 
+    function listion_task_delete() {
+        $delete_task.on('click',function () {
+            var $this = $(this);
+            var $item = $this.parent().parent();
+            var index = $item.data('index');
+            var tmp = confirm('确定删除');
+            tmp ? delete_task(index) : null;
+        });
+    }
+
 
     function add_task(new_task) {
         task_list.push(new_task);
         //更新localstorage
-        store.set('task_list',task_list);
-
+        refresh_task_list();
         return true;
     }
+
+    function refresh_task_list() {
+        store.set('task_list',task_list);
+        render_task_list();
+    }
+
+
+    function delete_task(index) {
+        //如果没有index或者index不存在直接返回
+        if(index === undefined || !task_list[index]) return;
+
+        //如果存在
+        delete task_list[index];
+        refresh_task_list();
+
+    }
+
+
+
 
 
     function render_task_list() {
         var $task_list  =$(".task-list");
         $task_list.html('');
         task_list.forEach(function(val,index){
-            var $render_task_item =  render_task_item(val);
+            var $render_task_item =  render_task_item(val,index);
             $task_list.append($render_task_item);
         });
+
+       $delete_task = $(".action.delete");
+        listion_task_delete();
     }
 
-    
-    function render_task_item(data) {
-        var list_item_tpl = '<div class="task-item">\
+
+    function render_task_item(data,index) {
+        if(!data || !index) return;
+        var list_item_tpl = '<div class="task-item" data-index="'+index+'">\
                             <span><input type="checkbox"></span>\
                             <span class="task-content">'+data.content+'</span>\
                             <span class="fr">\
-                            <span class="action"> 删除</span>\
+                            <span class="action delete"> 删除</span>\
                             <span class="action"> 详细</span>\
                             </span>\
                         </div>';
@@ -70,6 +106,7 @@
         if(task_list.length){
             render_task_list();
         }
+        listion_task_delete();
     }
 
 })();
