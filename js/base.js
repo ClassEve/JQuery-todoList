@@ -240,7 +240,7 @@
                     task_timestamp = (new Date(item.remind_date)).getTime();
                     if(curren_time - task_timestamp >= 1){
                         update_task(i,{informed: true});
-                        alert(item.content);
+                        alert('定时提醒 ：' + item.content);
                     }
                 }
             }
