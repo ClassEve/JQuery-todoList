@@ -119,3 +119,9 @@ textarea{
 .fr{
     float: right;
 }
+.task-list .complete-item{
+    background: #ccc;
+}
+.task-list .complete-item .task-content{
+    text-decoration: line-through;
+}
