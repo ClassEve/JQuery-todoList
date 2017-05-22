@@ -15,7 +15,8 @@
         $updata_form,
         $task_detail_content,
         $task_detail_content_input,
-        $checkbox_complete
+        $checkbox_complete,
+        interval_timer
         ;
 
     init();
@@ -64,7 +65,6 @@
             var isCom = $this.prop('checked');
             var index = $this.parent().parent().data('index');
             update_task(index,{complete: isCom});
-            console.log(isCom);
         })
     }
 
@@ -106,15 +106,15 @@
             </div>\
             </div>\
             <div class="remind">\
-            <input name="remind_date" type="date" value="'+item.remind_date+'">\
-            <button type="submit">更新</button>\
+            <label class="remind_time_label">提醒时间</label>\
+            <input class="datetime" name="remind_date" type="text" value="'+(item.remind_date || "")+'">\
+            <button type="submit" class="btn_refresh">更新</button>\
             </div>\
             </form>';
 
         $task_detail.html('');
         $task_detail.html(tpl);
-
-
+        $(".datetime").datetimepicker();
         $updata_form = $task_detail.find('form');
         $task_detail_content = $updata_form.find('.content');
         $task_detail_content_input = $updata_form.find('[name=content]');
@@ -129,7 +129,7 @@
             var data = {};
             data.content = $(this).find('[name = content]').val();
             data.desc = $(this).find('[name = desc]').val();
-            data.remind_date = $(this).find('[name = remind_date]').val();
+            data.remind_date = $(this).find('[name = remind_date]').val()
             update_task(index,data);
             hide_task_detail();
 
@@ -192,6 +192,7 @@
         listion_task_delete();
         listion_task_detail();
         listion_checkbox_complete();
+        task_remind_check();
     }
 
 
@@ -220,7 +221,31 @@
         if(task_list.length){
             render_task_list();
         }
-        listion_task_delete();
+
+        task_remind_check();
+    }
+
+    function task_remind_check() {
+        var curren_time;
+        setInterval(function () {
+            for(var i = 0; i < task_list.length; i++){
+                var task_timestamp;
+                var item = task_list[i];
+                if(item.informed) {
+                    continue;
+                }
+                if(item.remind_date){
+                    console.log(111);
+                    curren_time = (new Date()).getTime();
+                    task_timestamp = (new Date(item.remind_date)).getTime();
+                    if(curren_time - task_timestamp >= 1){
+                        update_task(i,{informed: true});
+                        alert(item.content);
+                    }
+                }
+            }
+        },500);
+
     }
 
 })();
