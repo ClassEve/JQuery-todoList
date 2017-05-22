@@ -126,13 +126,15 @@
     }
 
     function listion_task_delete() {
-        $delete_task.on('click',function () {
-            var $this = $(this);
-            var $item = $this.parent().parent();
-            var index = $item.data('index');
-            var tmp = confirm('确定删除');
-            tmp ? delete_task(index) : null;
-        });
+        if(!$delete_task.length){
+            $delete_task.on('click',function () {
+                var $this = $(this);
+                var $item = $this.parent().parent();
+                var index = $item.data('index');
+                var tmp = confirm('确定删除');
+                tmp ? delete_task(index) : null;
+            });
+        }
     }
 
 
