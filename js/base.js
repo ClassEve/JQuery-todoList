@@ -6,6 +6,8 @@
     'use strict';
 
     var $form_add_task = $('.add-task'),
+        $body = $('body'),
+        $window = $(window),
         $detail_task,
         $delete_task,
         task_list,
@@ -24,6 +26,117 @@
     $task_detail_mask.on('click',hide_task_detail);
 
     $form_add_task.on('submit',on_add_task_form);
+
+    function pop(arg) {
+        if(!arg){
+            console.error('pop title is required')
+        }
+
+        var conf = {},timer,$box,$mask,$title,$content,$confirm,$cancel,dfd,confirmed;
+
+        if(typeof arg == 'string'){
+            conf.title = arg;
+        }else{
+            conf = $.extend(conf,arg);
+        }
+
+        dfd = $.Deferred();
+
+        $box = $('<div>' +
+            '<div class="pop-title">'+conf.title+'</div>' +
+            '<div class="pop-content">'+(conf.content || '')+'</div>'+
+                '<div class="pop-btn"><button class="primary confirm">确定</button><button class="cancel">取消</button></div>'+
+            '</div>')
+            .css({
+                position:'fixed',
+                width: 300,
+                padding:'20px 0',
+                background: '#fff',
+                color: '#333',
+                textAlign: 'center'
+            });
+
+        function dismiss_pop() {
+            $mask.remove();
+            $box.remove();
+        }
+
+        $confirm = $box.find('.confirm');
+
+        $cancel  = $box.find('.cancel');
+
+        $title = $box.find('.pop-title')
+            .css({
+                padding:'5px 10px',
+                fontWeight: 900,
+                fontSize: '20px'
+            });
+
+        $content = $box.find('.pop-content')
+            .css({
+                padding:'5px 10px'
+            });
+
+        $confirm.on('click',function () {
+           confirmed = true;
+        });
+
+        $cancel.on('click',function () {
+            confirmed = false;
+        });
+
+
+
+        $mask = $('<div></div>')
+            .css({
+                position:'fixed',
+                top: 0,
+                left:0,
+                bottom: 0,
+                right: 0,
+                background:'rgba(0,0,0,.4)'
+            });
+
+        timer = setInterval(function () {
+            if(confirmed != undefined){
+                dfd.resolve(confirmed);
+                clearInterval(timer);
+                dismiss_pop();
+            }
+        },50);
+
+        function adjust_box_position() {
+            var window_width = $window.width(),
+                window_height = $window.height(),
+                box_width = $box.width(),
+                box_height = $box.height(),
+                move_x,
+                move_y;
+
+            move_x = (window_width - box_width) / 2;
+            move_y = (window_height - box_height) / 3;
+
+            $box.css({
+                left: move_x,
+                top: move_y
+            });
+        }
+        $body.append($mask);
+        $box.appendTo($body);
+        adjust_box_position();
+        $window.on('resize',adjust_box_position);
+
+        return dfd.promise();
+
+
+    }
+
+
+
+
+
+
+
 
     function  on_add_task_form(e) {
         var new_task = {};
@@ -142,8 +255,11 @@
                 var $this = $(this);
                 var $item = $this.parent().parent();
                 var index = $item.data('index');
-                var tmp = confirm('确定删除');
-                tmp ? delete_task(index) : null;
+                pop('确定要删除吗')
+                    .then(function (r) {
+                        if(r)
+                            delete_task(index);
+                    });
             });
         }
     }
@@ -235,7 +351,6 @@
                     continue;
                 }
                 if(item.remind_date){
-                    console.log(111);
                     curren_time = (new Date()).getTime();
                     task_timestamp = (new Date(item.remind_date)).getTime();
                     if(curren_time - task_timestamp >= 1){
